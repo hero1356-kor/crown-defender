@@ -74,7 +74,7 @@
  <circle cy="-58" r="11" fill="#FFCA6E"/>
  <g transform="translate(0 76)"><rect x="-6" y="-32" width="12" height="27" rx="4" fill="#5FE0D2"/><circle r="20" fill="#207B85" stroke="#7AF1DD" stroke-width="4"/></g>
  </g>
- <text x="161" y="423" text-anchor="middle" font-family="monospace" fill="#F3B55B" font-size="15">DODGE THE RED ARC</text>
+ <text x="161" y="423" text-anchor="middle" font-family="monospace" fill="#F3B55B" font-size="15">BREAK THE CHARGE</text>
 </g>
 <text x="44" y="563" fill="#91AAB5" font-family="monospace" font-size="14">Original vector concept art  •  no third-party IP  •  target: watchOS</text>
 </svg>
