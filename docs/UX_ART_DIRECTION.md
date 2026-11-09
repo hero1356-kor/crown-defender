@@ -2,7 +2,7 @@
 
 ## 1. Art identity
 
-**Precision instrument meets original pixel-art sci-fi defense.** Dark radar console, high contrast outlines, tangible aiming reticle, compact readable HP/WAVE feedback.
+**Minimal arcade pixel art rather than ornamental sci-fi UI.** The watch screen is nearly-black with one thin radar circle, a cyan turret, coral enemies, yellow bullets and a compact high-contrast HUD. Avoid gradients, scanlines, decorative HUD panels, excessive particles, metallic textures, and tiny type inside the actual watch screen.
 
 The concept SVG is original vector reference, **not** a playable screenshot, shipped spritesheet, purchased design or precise 40 mm layout guarantee: [watch concept](../assets/concept/crown-defender-watch-concept.svg).
 
@@ -10,15 +10,15 @@ The concept SVG is original vector reference, **not** a playable screenshot, shi
 
 | Token | Hex | Role |
 |---|---|---|
-| night | #0B1520 | Outer background |
-| panel | #152632 | Cards, menu container |
-| radar | #314755 | Rings/ticks |
-| friendly | #5FE0D2 | Turret, aim |
-| enemy | #FA715B | Threat, incoming attack |
-| boss | #D4574F | Boss accents |
-| amber | #F3B55B | Bullets and selected cards |
-| text | #EBF2EE | High-contrast primary text |
-| muted | #8299A6 | Secondary data |
+| night | #0B0F14 | Watch gameplay background |
+| panel | #263238 | Cards / noncritical border |
+| radar | #354B56 | Single thin arena ring |
+| friendly | #4DD0E1 | Turret and player feedback |
+| enemy | #FF5252 | Enemy shapes and warnings |
+| boss | #FF5252 | Boss accents |
+| amber | #FFD54A | Bullets, coins and focused card |
+| text | #FFFFFF | Primary text |
+| muted | #8BA1AD | Secondary data |
 
 No illegible microtext, heavy bloom, derivative Nintendo-like sprites or third-party logos. Favor vector-first geometry until original pixel sprites are ready.
 
@@ -97,3 +97,7 @@ M0/M1 can use primitives. Later, original 16x16 / 24x24 / 32x32 transparent spri
 - Safe rounded corners; no essential controls under system time/header or Crown clipping.
 - WatchOS reduce motion honored where available. Default no rapid flashes.
 - 40mm and 44mm simulator screenshots plus one real-device screenshot required for final signoff.
+
+## 7. Minimalism revision (2026-11-09)
+
+The repository concept SVG has been **updated** to a simpler four-screen visual. It is the canonical current design reference. Key rules: just one radar ring plus four cardinal ticks; 5–6 colors including background; enemy icons as small high-contrast red shapes; clear top HP/WAVE, no detailed décor; upgrade screen uses three large stacked entries with only one yellow selected border; results screen uses single primary retry action but must remain Crown-only. Prefer 40 mm readability over pixel fidelity and polish. The external earlier elaborate concept board is superseded.
