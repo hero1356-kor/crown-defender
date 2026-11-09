@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Crown Defender — Interaction Concept</title>
+<style>
+:root{color-scheme:dark;--bg:#0b1520;--panel:#152632;--teal:#5fe0d2;--amber:#f3b55b;--red:#fa715b;--type:#ebf2ee;--muted:#8299a6}
+*{box-sizing:border-box}
+body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display",Arial,sans-serif;background:radial-gradient(ellipse at 50% 0,#1b3949,var(--bg) 68%);color:var(--type);min-height:100vh;padding:30px 16px}
+main{max-width:1100px;margin:auto}
+h1{font-size:clamp(28px,6vw,52px);letter-spacing:.12em;margin:0}
+.kicker{font-size:12px;letter-spacing:.23em;color:var(--teal);font-weight:700}
+p{line-height:1.55;color:var(--muted)}
+.layout{display:grid;grid-template-columns:minmax(280px,1fr) minmax(300px,1fr);gap:36px;align-items:center;margin-top:35px}
+.watch-holder{display:flex;justify-content:center;align-items:center}
+.watch{position:relative;background:linear-gradient(115deg,#637984,#171f26 24%,#535c63 75%,#26343b);border:2px solid #91a4a9;border-radius:74px;width:286px;height:350px;padding:10px;box-shadow:0 22px 70px #0008, inset 0 0 0 3px #17212a}
+.watch:after{content:"";position:absolute;right:-15px;top:138px;width:18px;height:45px;background:repeating-linear-gradient(180deg,#687984 0 3px,#1d303b 3px 5px);border:3px solid #1c272e;border-radius:6px 10px 10px 6px}
+.screen{height:100%;background:radial-gradient(circle at 50% 47%,#183443,#07141c 90%);border:6px solid #060e14;border-radius:65px;overflow:hidden;position:relative}
+.hud{display:flex;justify-content:space-between;padding:23px 13px 0;font-size:11px;letter-spacing:.07em;font-weight:800}
+.hud .hearts{color:var(--red)}.hud .wave{color:#dcefe8}
+canvas{width:100%;height:250px;display:block}
+.bar{position:absolute;bottom:20px;left:18%;width:64%;height:7px;background:#273e4b;border-radius:100px;overflow:hidden}.bar span{display:block;height:100%;width:63%;background:var(--amber)}
+.panel{border:1px solid #2c4653;border-radius:20px;background:#10212ddc;padding:26px}
+.sub{font-size:12px;text-transform:uppercase;letter-spacing:.2em;color:var(--amber)}
+.metric{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:18px 0}
+.metric div{border-radius:10px;background:#1b3340;padding:14px 9px;text-align:center}
+.metric strong{display:block;font-size:22px;color:var(--teal)}
+.metric span{display:block;font-size:11px;color:var(--muted);margin-top:5px}
+.ctrl{display:flex;gap:8px;flex-wrap:wrap;margin-top:18px}
+button{background:#233e4b;border:1px solid #42616c;color:var(--type);border-radius:12px;padding:12px 18px;font-weight:750;cursor:pointer}
+button:hover{background:#315666}
+button.primary{background:#1a625f;border-color:#57d4c4}
+input[type=range]{width:100%;accent-color:var(--teal);cursor:pointer}
+.section{color:var(--type);font-weight:750;margin:16px 0 8px}
+small{color:var(--muted);font-size:12px;line-height:1.7}
+.badge{display:inline-block;color:#b9e8de;background:#183c3d;padding:5px 10px;border:1px solid #2d6f67;border-radius:100px;font-size:11px;letter-spacing:.02em}
+footer{margin-top:26px;color:var(--muted);font-size:12px}
+@media(max-width:760px){.layout{grid-template-columns:1fr;gap:22px}.panel{padding:19px}.watch{transform:scale(.92)}}
+</style>
+</head>
+<body><main>
+<div class="kicker">ORIGINAL WATCHOS GAME CONCEPT / V0.1</div>
+<h1>CROWN<br>DEFENDER</h1>
+<p>애플워치 디지털 크라운 하나로 360° 조준하는 자동 발사 로그라이크 디펜스. 아래는 조작 감각을 시험하기 위한 <b>브라우저 콘셉트 데모</b>이며, 실제 watchOS 실행 화면이 아닙니다.</p>
+<div class="layout">
+<div class="watch-holder"><div class="watch"><div class="screen"><div class="hud"><span class="hearts" id="hp">♥ ♥ ♥ ♥ ♥</span><span class="wave" id="wave">WAVE 1</span></div><canvas id="arena" width="480" height="480" aria-label="원형 전장 데모"></canvas><div class="bar"><span id="progress"></span></div></div></div></div>
+<section class="panel">
+<span class="badge">CROWN ONLY / NO TOUCH GAMEPLAY</span>
+<div class="metric"><div><strong id="angleLabel">0°</strong><span>조준 각도</span></div><div><strong id="score">0</strong><span>점수</span></div><div><strong id="kills">0</strong><span>처치</span></div></div>
+<div class="sub">Digital Crown input simulator</div>
+<div class="section">크라운 회전 시뮬레이션</div>
+<input id="angle" aria-label="Aim angle" type="range" min="0" max="359" step="1" value="0">
+<div class="ctrl"><button id="ccw">↶ -15°</button><button id="cw">+15° ↷</button><button id="pause">일시정지</button><button class="primary" id="restart">다시 시작</button></div>
+<p class="section">조작 방법</p>
+<small>슬라이더 또는 회전 버튼으로 포탑의 각도를 변경하세요. 마우스 휠과 키보드 ← → 방향키도 지원합니다. 총알은 자동으로 발사되며, 외곽에서 중앙으로 접근하는 적을 막습니다. 실제 워치 버전에서는 크라운 회전만 받으며, 측면 버튼이나 크라운 누르기를 게임 입력으로 사용하지 않습니다.</small>
+<p class="section">디자인 핵심</p>
+<small>고정된 중앙 포탑 · 동심원 레이더 · 직관적인 탄환 궤적 · 적 접근 경보 · 40mm 가독성을 염두에 둔 높은 명도 대비.</small>
+</section></div>
+<footer>© Crown Defender concept. Self-contained HTML simulation. No third-party art or API. Not an Xcode build or SE2 device test.</footer>
+</main>
+<script>
+(function(){
+var cv=document.getElementById('arena'),g=cv.getContext('2d'),angleInput=document.getElementById('angle'),angleLabel=document.getElementById('angleLabel');
+var scoreEl=document.getElementById('score'),killsEl=document.getElementById('kills'),hpEl=document.getElementById('hp'),waveEl=document.getElementById('wave'),progress=document.getElementById('progress');
+var angle=0,score=0,kills=0,hp=5,wave=1,clock=0,shootClock=0,spawnClock=0,paused=false,entities=[],shots=[],last=0,over=false;
+var R=210,cx=240,cy=240;
+function choose(a){angle=((a%360)+360)%360;angleInput.value=Math.round(angle);angleLabel.textContent=Math.round(angle)+'°'}
+angleInput.addEventListener('input',function(){choose(Number(angleInput.value))});
+document.getElementById('ccw').onclick=function(){choose(angle-15)};
+document.getElementById('cw').onclick=function(){choose(angle+15)};
+document.getElementById('pause').onclick=function(){paused=!paused;this.textContent=paused?'계속하기':'일시정지'};
+document.getElementById('restart').onclick=function(){score=0;kills=0;hp=5;wave=1;clock=0;shootClock=0;spawnClock=0;paused=false;over=false;entities=[];shots=[];choose(0);updateHud()};
+document.addEventListener('keydown',function(e){if(e.key==='ArrowLeft'){choose(angle-9);e.preventDefault()}if(e.key==='ArrowRight'){choose(angle+9);e.preventDefault()}});
+cv.addEventListener('wheel',function(e){choose(angle+(e.deltaY>0?8:-8));e.preventDefault()},{passive:false});
+function updateHud(){scoreEl.textContent=score;killsEl.textContent=kills;hpEl.textContent='♥ '.repeat(Math.max(0,hp));waveEl.textContent=over?'GAME OVER':'WAVE '+wave;progress.style.width=Math.min(100,clock/35*100)+'%'}
+function spawn(){var a=Math.random()*Math.PI*2;entities.push({x:Math.cos(a)*.92,y:Math.sin(a)*.92,r:12,s:.105+wave*.01,kind:Math.random()<.2?'spinner':'drone'})}
+function update(dt){
+if(paused||over)return;
+clock+=dt;shootClock+=dt;spawnClock+=dt;
+if(spawnClock>Math.max(.65,1.75-wave*.14)){spawnClock=0;if(entities.length<12)spawn()}
+if(shootClock>.40){shootClock=0;var a=(angle-90)*Math.PI/180;shots.push({x:0,y:0,vx:Math.cos(a)*1.35,vy:Math.sin(a)*1.35,r:5})}
+for(var i=shots.length-1;i>=0;i--){var b=shots[i];b.x+=b.vx*dt;b.y+=b.vy*dt;if(b.x*b.x+b.y*b.y>1.15){shots.splice(i,1);continue}var hit=false;for(var j=entities.length-1;j>=0;j--){var m=entities[j];if(Math.hypot(b.x-m.x,b.y-m.y)<.095){entities.splice(j,1);score+=10;kills++;shots.splice(i,1);hit=true;break}}if(hit)continue}
+for(i=entities.length-1;i>=0;i--){var e=entities[i],d=Math.hypot(e.x,e.y),dist=e.s*dt;if(d>.01){e.x-=e.x/d*dist;e.y-=e.y/d*dist}if(Math.hypot(e.x,e.y)<.11){entities.splice(i,1);hp--;if(hp<=0){over=true;break}}}
+if(clock>35){clock=0;wave=Math.min(4,wave+1);entities=[];shots=[]}
+updateHud()
+}
+function line(x1,y1,x2,y2,color,w){g.beginPath();g.moveTo(x1,y1);g.lineTo(x2,y2);g.strokeStyle=color;g.lineWidth=w;g.stroke()}
+function paint(){
+g.clearRect(0,0,480,480);g.fillStyle='#07141c';g.fillRect(0,0,480,480);g.save();g.translate(cx,cy);
+g.strokeStyle='#294652';g.lineWidth=2;[R,R*.68,R*.35].forEach(function(rad){g.beginPath();g.arc(0,0,rad,0,Math.PI*2);g.stroke()});
+for(var a=0;a<24;a++){var t=a*Math.PI/12;line(Math.cos(t)*R*.96,Math.sin(t)*R*.96,Math.cos(t)*R,Math.sin(t)*R,'#50646c',2)}
+entities.forEach(function(e){g.save();g.translate(e.x*R,e.y*R);g.rotate(Math.PI/4);g.fillStyle='#fa715b';g.fillRect(-e.r/1.5,-e.r/1.5,e.r*1.33,e.r*1.33);g.fillStyle='#111923';g.fillRect(-3,-3,6,6);g.restore()});
+shots.forEach(function(s){g.fillStyle='#f3b55b';g.beginPath();g.arc(s.x*R,s.y*R,s.r,0,Math.PI*2);g.fill()});
+var rad=(angle-90)*Math.PI/180;line(0,0,Math.cos(rad)*56,Math.sin(rad)*56,'#5fe0d2',14);g.fillStyle='#2c8e92';g.strokeStyle='#8ffdea';g.lineWidth=5;g.beginPath();g.arc(0,0,23,0,Math.PI*2);g.fill();g.stroke();
+g.restore();if(over||paused){g.fillStyle='#03101bbc';g.fillRect(0,0,480,480);g.fillStyle='#edf3ee';g.font='bold 38px sans-serif';g.textAlign='center';g.fillText(over?'GAME OVER':'PAUSED',240,238)}
+}
+function frame(time){if(!last)last=time;var dt=Math.min(.033,(time-last)/1000);last=time;update(dt);paint();requestAnimationFrame(frame)}updateHud();requestAnimationFrame(frame);
+})();
+</script>
+</body></html>
