@@ -34,6 +34,7 @@ The **watch side button and Crown press are NOT gameplay inputs**: the buttons a
 5. [Build plan](docs/IMPLEMENTATION_PLAN.md) — phases M0–M4 and acceptance gates.
 6. [QA](docs/QA_ACCEPTANCE.md) — game/system tests and explicit evidence required.
 7. [Concept art](assets/concept/crown-defender-watch-concept.svg) — original editable SVG.
+8. [Interactive prototype](design/crown-defender-prototype.html) — browser-only Crown aiming simulation; not a watchOS build.
 
 ## Source of truth / known limitations
 
